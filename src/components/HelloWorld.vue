@@ -1,40 +1,67 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+      <h2>{{ calculatedValue }}</h2>
+      <b-form-input v-model="inputValue" type="number"></b-form-input>
+
+      <b-button @click="getRates">Get exchange ratess</b-button>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
-  }
+  },
+    data() {
+      return {
+          dropdownText: 'Select an item',
+          actionList: [
+              { name: 'First Action', id: 1, active: false },
+              { name: 'Second Action', id: 2, active: false },
+              { name: 'Third Action', id: 3, active: false },
+              { name: 'Active action', id: 4, active: false },
+          ],
+          rates: [],
+          inputValue: 0,
+          desiredCurrencyRate: 0
+      }
+    },
+
+    computed: {
+      calculatedValue() {
+          return Number(this.inputValue) * this.desiredCurrencyRate;
+      }
+    },
+
+    methods: {
+      consoleThis(event) {
+          this.actionList.forEach((item) => {
+              if (event.id === item.id) {
+                  item.active = true;
+                  this.dropdownText = item.name;
+              } else {
+                  item.active = false;
+              }
+          });
+      },
+
+        getRates() {
+          axios.get('https://api.exchangeratesapi.io/latest?symbols=USD&base=GBP')
+            .then((resp) => {
+                this.rates = resp.data.rates
+
+            })
+              .finally(() => {
+                  console.log(23232323);
+                  this.desiredCurrencyRate = Object.values(this.rates)[0];
+
+        })
+              .catch((error) => console.log(error));
+        }
+    }
 }
 </script>
 
