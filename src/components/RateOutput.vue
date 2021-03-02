@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>{{ calculatedValue }}</h1>
+        <h1>{{ displayedValue }}</h1>
     </div>
 </template>
 
@@ -9,7 +9,16 @@ import { mapState } from 'vuex'
 
 export default {
     computed: {
-        ...mapState(['calculatedValue'])
+        ...mapState(['calculatedValue']),
+
+        /**
+         * Limiting the digits after the decimal to 2 places
+         *
+         * @returns {string}
+         */
+        displayedValue() {
+            return (typeof this.calculatedValue === 'number') ? this.calculatedValue.toFixed(2) : '';
+        }
     }
 }
 </script>
