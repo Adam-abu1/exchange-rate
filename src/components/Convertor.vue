@@ -1,13 +1,29 @@
 <template>
     <div>
-        <b-form-input v-model="inputValue" class="form-input" type="number"></b-form-input>
-        <b-form-select v-model="currencyFrom" :options="currencies"></b-form-select>
-        <b-form-select v-model="currencyTo" :options="currencies"></b-form-select>
+        <input
+            name="input"
+            id="input-value"
+            v-model="inputValue"
+            class="form-input"
+            type="number"
+        />
+        <b-form-select
+            v-model="currencyFrom"
+            :options="namedCurrencies"
+            text="Please Select a Currency"
+            value="EUR"
+        ></b-form-select>
+        <b-form-select
+            v-model="currencyTo"
+            :options="namedCurrencies"
+            text="Please select a currency"
+        ></b-form-select>
         <b-button
             :disabled="buttonDisabled"
             @click="getConversionRate"
             variant="primary"
-        >Get exchange rates</b-button>
+        >Get exchange rates
+        </b-button>
     </div>
 </template>
 
