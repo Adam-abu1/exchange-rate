@@ -3,6 +3,12 @@ import {mapActions, mapState} from "vuex";
 import { currencyCodes } from '@/Data/Common-currency.js';
 
 export default {
+    data() {
+        return {
+            commonCurrencies: currencyCodes
+        }
+    },
+
     computed: {
         ...mapState(['baseCurrency', 'baseRates']),
 
