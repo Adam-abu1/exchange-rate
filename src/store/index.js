@@ -31,12 +31,10 @@ export default new Vuex.Store({
 
         dispatchBaseCurrency({commit}, payload) {
             commit('setBaseCurrency', payload);
-
         },
 
         dispatchBaseRates({commit}, payload) {
             commit('setBaseRates', payload);
-
         }
     },
 

@@ -1,27 +1,40 @@
 <template>
-    <div>
-        <input
-            name="input"
-            id="input-value"
-            v-model="inputValue"
-            class="form-input"
-            type="number"
-        />
-        <b-form-select
-            v-model="currencyFrom"
-            :options="namedCurrencies"
-            text="Please Select a Currency"
-            value="EUR"
-        ></b-form-select>
-        <b-form-select
-            v-model="currencyTo"
-            :options="namedCurrencies"
-            text="Please select a currency"
-        ></b-form-select>
+    <div id="convertor">
+        <div class="amount-input input-wrapper">
+            <h2>Amount</h2>
+            <b-form-input
+                name="input"
+                id="input-value"
+                v-model="inputValue"
+                min="0"
+                class="form-input"
+                type="number"
+            />
+        </div>
+        <div class="from-select input-wrapper">
+            <h2>From</h2>
+            <b-form-select
+                v-model="currencyFrom"
+                :options="namedCurrencies"
+                value="EUR"
+            >
+                <b-form-select-option :value="null">Please select a currency</b-form-select-option>
+            </b-form-select>
+        </div>
+        <div class="to-select input-wrapper">
+            <h2>To</h2>
+            <b-form-select
+                v-model="currencyTo"
+                :options="namedCurrencies"
+            >
+                <b-form-select-option :value="null">Please select a currency</b-form-select-option>
+            </b-form-select>
+        </div>
         <b-button
             :disabled="buttonDisabled"
             @click="getConversionRate"
             variant="primary"
+            class="get-rates-button"
         >Get exchange rates
         </b-button>
     </div>
@@ -88,9 +101,25 @@
 </script>
 
 <style scoped>
-input,
-select,
-button {
+#convertor {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
     margin-bottom: 20px;
+}
+input,
+select {
+    margin-bottom: 20px;
+}
+
+button.disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.get-rates-button {
+    grid-column: 2;
+    height: fit-content;
 }
 </style>
