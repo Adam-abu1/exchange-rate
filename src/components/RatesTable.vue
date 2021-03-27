@@ -1,20 +1,16 @@
 <template>
-    <div>
-        <ul>
-            <li v-for="(rate, currency) in baseRates"> {{ currency }}: {{ rate }}</li>
-        </ul>
+    <div id="rates-table">
+        <b-table striped hover :items="ratesTableOutput"></b-table>
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import BaseRates from "@/mixins/BaseRates";
 
     export default {
         name: 'RatesTable',
 
-        computed: {
-            ...mapState(['baseRates'])
-        }
+        mixins: [BaseRates]
     }
 </script>
 

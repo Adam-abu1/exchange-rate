@@ -15,6 +15,7 @@
             <h2>From</h2>
             <b-form-select
                 v-model="currencyFrom"
+                @change="changeBaseRate"
                 :options="namedCurrencies"
                 value="EUR"
             >
@@ -59,7 +60,15 @@
         },
 
         methods: {
-            ...mapActions(['dispatchExchangeValue']),
+            ...mapActions(['dispatchExchangeValue', 'dispatchBaseCurrency']),
+
+            /**
+             * Change the base Rate in the store state
+             */
+            changeBaseRate(selectedCurrency) {
+                this.dispatchBaseCurrency(selectedCurrency);
+                this.getAllRates();
+            },
 
             getConversionRate() {
                 axios.get(`https://api.exchangeratesapi.io/latest?symbols=${this.currencyTo}&base=${this.currencyFrom}`)
@@ -73,8 +82,6 @@
         },
 
         computed: {
-            ...mapState(['baseRates']),
-
             /**
              * Check for whether the "Get exchange rates" button is disabled or not
              *

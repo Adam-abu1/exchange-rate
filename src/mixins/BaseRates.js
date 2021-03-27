@@ -1,9 +1,11 @@
 import axios from "axios";
 import {mapActions, mapState} from "vuex";
-import {currencyCodes} from '@/Data/Common-currency.js';
+import { currencyCodes } from '@/Data/Common-currency.js';
 
 export default {
     computed: {
+        ...mapState(['baseCurrency', 'baseRates']),
+
         /**
          * Returns the keys for the available currencies
          *
@@ -25,6 +27,15 @@ export default {
                     text: `${code} - ${currencyCodes[code].name_plural}`
                 }
             });
+        },
+
+        ratesTableOutput() {
+            return  Object.keys(this.baseRates).map((code) => {
+                return {
+                    Name: currencyCodes[code].name_plural,
+                    rate: this.baseRates[code].toFixed(2)
+                }
+            });
         }
     },
 
@@ -35,7 +46,7 @@ export default {
          * Retrieve all available currencies and their rates
          */
         getAllRates() {
-            axios.get('https://api.exchangeratesapi.io/latest')
+            axios.get(`https://api.exchangeratesapi.io/latest?base=${this.baseCurrency}`)
                 .then((resp) => {
                     this.dispatchBaseRates(resp.data.rates);
                 })

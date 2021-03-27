@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="rate-output">
         <h1>{{ displayedValue }}</h1>
     </div>
 </template>
