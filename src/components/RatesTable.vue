@@ -8,6 +8,8 @@
 <script>
     import BaseRates from "@/mixins/BaseRates";
     import {mapState} from "vuex";
+    import { currencyCodes } from '@/Data/Common-currency.js';
+
 
 
     export default {
@@ -19,7 +21,7 @@
             ...mapState(['baseCurrency']),
 
             selectedCurrency() {
-                return this.commonCurrencies[this.baseCurrency].name
+                return currencyCodes[this.baseCurrency].name
             }
         }
     }
